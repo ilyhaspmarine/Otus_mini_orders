@@ -54,7 +54,7 @@ cd ../
 
 #### Устанавливаем чарт сервиса
 ```
-helm install order order-app -n order
+helm install order orders-app -n order
 ```
 
 #### Включаем (и не закрываем терминал)
@@ -64,7 +64,7 @@ minikube tunnel
 
 #### Проверяем health-check (в новом окне терминала)
 ```
-curl http://arch.homework/order/health/
+curl http://arch.homework/orders/health/
 ```
 
 
@@ -76,12 +76,12 @@ helm uninstall order -n order
 
 #### Удаляем секрет
 ```
-kubectl delete secret order-db-secret -n order
+kubectl delete secret orders-db-secret -n order
 ```
 
 #### Удаляем PVC, оставшиеся от БД
 ```
-kubectl delete pvc -l app.kubernetes.io/name=order-postgresql,app.kubernetes.io/instance=order -n order
+kubectl delete pvc -l app.kubernetes.io/name=orders-postgresql,app.kubernetes.io/instance=order -n order
 ```
 
 #### Сносим PV, оставшиеся от БД (если reclaimPolicy: Retain)
