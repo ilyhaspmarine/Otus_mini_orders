@@ -1,5 +1,4 @@
 from order_db_schema import Order as OrderSchema, OrderStatus
-from decimal import Decimal
 from order_models import OrderReturn, OrderUpdateEvent, OrderCreate
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,7 +15,7 @@ async def process_new_order(
     now = datetime.utcnow()
     db_order = OrderSchema(
         id = uuid.uuid4(),
-        uname = new_order.uname,
+        username = new_order.username,
         price = new_order.price,
         status = OrderStatus.PENDING,
         placed_at = now,
@@ -41,7 +40,7 @@ def build_return_from_order(
 ):
     return OrderReturn (
         id = db_order.id,
-        uname = db_order.uname,
+        username = db_order.username,
         status = db_order.status,
         price = db_order.price,
         placed_at = db_order.placed_at,

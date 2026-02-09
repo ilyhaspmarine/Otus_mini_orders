@@ -36,7 +36,7 @@ class Order(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     # Имя пользователя, разместившего заказ
-    uname = Column(String(100), nullable=False)
+    username = Column(String(100), nullable=False)
 
     # ID оплаты (для связи с сервисом биллинга)
     payment_id = Column(UUID(as_uuid=True))

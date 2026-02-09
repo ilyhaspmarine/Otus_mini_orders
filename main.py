@@ -41,9 +41,9 @@ async def order_get_by_id(
     return utils.build_return_from_order(result)
 
 
-@app.get('/orders/user/{uname}', summary = 'Get orders for User', tags = ['Orders'], response_model = List[OrderReturn], status_code = status.HTTP_200_OK)
+@app.get('/orders/user/{req_uname}', summary = 'Get orders for User', tags = ['Orders'], response_model = List[OrderReturn], status_code = status.HTTP_200_OK)
 async def orders_get_for_uname(
-    uname: str,
+    req_uname: str,
     db = Depends(_get_db)
 ):
     # TO-DO: Нужная функция, но не нужна в рамках ДЗ

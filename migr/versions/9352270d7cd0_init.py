@@ -27,7 +27,7 @@ def upgrade() -> None:
     sa.Column('price', sa.Numeric(precision=15, scale=2), nullable=False),
     sa.Column('placed_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
-    sa.Column('uname', sa.String(length=100), nullable=False),
+    sa.Column('username', sa.String(length=100), nullable=False),
     sa.Column('payment_id', sa.UUID(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
