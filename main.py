@@ -46,5 +46,5 @@ async def orders_get_for_uname(
     req_uname: str,
     db = Depends(_get_db)
 ):
-    # TO-DO: Нужная функция, но не нужна в рамках ДЗ
-    pass
+    orders = await utils.get_orders_by_uname(req_uname, db)
+    return orders

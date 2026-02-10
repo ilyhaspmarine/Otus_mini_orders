@@ -142,3 +142,12 @@ async def process_payment_failed(
         )
     
     return build_return_from_order(order)
+
+
+async def get_orders_by_uname(
+    req_uname: str,
+    db: AsyncSession
+):
+    result = await db.execute(select(OrderSchema).filter(OrderSchema.username == req_uname))
+    orders = result.scalars().all()
+    return orders
