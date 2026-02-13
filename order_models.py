@@ -14,6 +14,9 @@ class Price(BaseModel):
 class OrderID(BaseModel):
     id: UUID
 
+class OrderIDStr(BaseModel):
+    order_id: str
+
 class Event(BaseModel):
     event: str
 
@@ -27,4 +30,7 @@ class OrderUpdateEvent(OrderID, Event):
 class OrderReturn(OrderID, UserName, Price):
     status: str = Field()
     placed_at: datetime = Field()
+    updated_at: datetime = Field() 
+
+class OrderUpdateMessage(OrderIDStr, UserName, Event):
     updated_at: datetime = Field() 

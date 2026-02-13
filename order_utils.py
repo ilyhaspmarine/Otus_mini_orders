@@ -1,11 +1,27 @@
 from order_db_schema import Order as OrderSchema, OrderStatus
-from order_models import OrderReturn, OrderUpdateEvent, OrderCreate
+from order_models import OrderReturn, OrderCreate, OrderUpdateEvent, OrderUpdateMessage
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
+from order_config import settings
+from kafka_producer import KafkaProd
+
+
+producer = None
+
+
+async def handle_startup():
+    global producer 
+    producer = KafkaProd()
+    await producer.init_producer()
+
+
+def handle_shutdown():
+    global producer
+    producer.close()
 
 
 async def process_new_order(
@@ -22,8 +38,6 @@ async def process_new_order(
         updated_at = now,
         payment_id = None
     )
-
-    print(db_order)
 
     db.add(db_order)
 
@@ -90,7 +104,25 @@ async def process_payment_confirmed(
             detail = 'Failed to update order status'
         )
     
+    await send_order_updated_message(order, event.event)
+
     return build_return_from_order(order)
+
+
+async def send_order_updated_message(
+    order: OrderSchema,
+    event: str
+):
+    message = OrderUpdateMessage(
+        order_id = str(order.id),
+        username = order.username,
+        event = event,
+        updated_at = order.updated_at
+    )
+
+    global producer
+
+    await producer.send_order_event(message)
 
 
 async def get_order_by_id(

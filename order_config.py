@@ -17,6 +17,7 @@ class DbSettings(BaseModel):
 #     public_key_path: Path =  BASE_DIR /os.getenv("JWT_PUBLIC_PATH", "./etc/keys/rollback/public.pem")
 #     algorithm: str = os.getenv("JWT_ALGORITH", "RS256")
 
+
 class Settings(BaseSettings):
     db: DbSettings = DbSettings()
     # rollback_jwt: RollbackJWT = RollbackJWT()

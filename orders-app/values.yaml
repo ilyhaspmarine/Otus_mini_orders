@@ -53,3 +53,8 @@ postgresql:
 configMap:
   driver_sync: "psycopg2"
   driver_async: "asyncpg"
+
+broker:
+  bootstrap_servers: "kafka.kafka.svc.cluster.local:9092"
+  topic: "orders"
+  user: "user1"

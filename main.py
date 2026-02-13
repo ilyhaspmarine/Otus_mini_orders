@@ -9,6 +9,16 @@ from typing import List
 app = FastAPI(title="Order Service", version="1.0.0")
 
 
+@app.on_event("startup")
+async def on_startup():
+    await utils.handle_startup()
+
+
+@app.on_event("shutdown")
+async def on_shutdown():
+    utils.handle_shutdown()
+
+
 @app.get('/health', summary='HealthCheck EndPoint', tags=['Health Check'])
 def healthcheck():
     return {'status': 'OK'}

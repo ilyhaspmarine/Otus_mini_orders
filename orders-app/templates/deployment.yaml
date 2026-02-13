@@ -20,6 +20,10 @@ spec:
           ports:
             - containerPort: 8000
           env:
+          - name: KAFKA_BOOTSTRAP_SERVERS
+            value: {{ .Values.broker.bootstrap_servers }}
+          - name: KAFKA_ORDERS_TOPIC
+            value: {{ .Values.broker.topic }}
           - name: DB_DRIVER_ASYNC 
             valueFrom:
               configMapKeyRef:
@@ -49,7 +53,14 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.postgresql.auth.existingSecret }}
-                key: database       
+                key: database   
+          - name: KAFKA_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: kafka-secret
+                key: client-passwords              
+          - name: KAFKA_USER
+            value: {{ .Values.broker.user  }}                           
           livenessProbe:
             httpGet:
               path: /health/

@@ -8,3 +8,4 @@ pydantic
 pydantic_settings
 prometheus_fastapi_instrumentator
 python-multipart
+confluent-kafka==2.3.0

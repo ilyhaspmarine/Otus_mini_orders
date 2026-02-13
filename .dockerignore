@@ -1,0 +1,12 @@
+__pycache__/
+migr/__pycache__/
+migr/README
+migr/versions/__pycache__/
+Dockerfile
+postman/
+order-app/
+secret/
+etc/
+README.md
+.gitignore
+.dockerignore
