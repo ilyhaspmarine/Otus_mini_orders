@@ -12,7 +12,7 @@ class KafkaProd:
         self.__user = os.getenv("KAFKA_USER")
 
     
-    async def init_producer(
+    async def init_connection(
         self
     ):
         try:
@@ -89,7 +89,7 @@ class KafkaProd:
         # Отправка сообщения
         try:
             self.__producer.produce(
-                topic='orders',
+                topic=self.__topic,
                 value=order_message.model_dump_json().encode('utf-8'),
                 key=order_message.order_id.encode('utf-8'),  # ключ для партиционирования по id
                 callback=delivery_report
@@ -111,3 +111,7 @@ class KafkaProd:
         
         except Exception as e:
             print(f"Error publishing order {order_message.order_id}: {e}")
+
+    
+    def close(self):
+        self.__producer.close()

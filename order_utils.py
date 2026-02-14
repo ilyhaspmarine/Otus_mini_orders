@@ -16,7 +16,7 @@ producer = None
 async def handle_startup():
     global producer 
     producer = KafkaProd()
-    await producer.init_producer()
+    await producer.init_connection()
 
 
 def handle_shutdown():
