@@ -5,3 +5,4 @@
 ./etc/
 migr/__pycache__/env.cpython-314.pyc
 *.pyc
+/openapi
