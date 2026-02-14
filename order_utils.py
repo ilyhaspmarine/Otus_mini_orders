@@ -173,6 +173,8 @@ async def process_payment_failed(
             detail = 'Failed to update order status'
         )
     
+    await send_order_updated_message(order, event.event)
+
     return build_return_from_order(order)
 
 
