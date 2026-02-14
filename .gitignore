@@ -3,3 +3,5 @@
 ./migr/README
 ./migr/versions/__pycache__/
 ./etc/
+migr/__pycache__/env.cpython-314.pyc
+*.pyc
