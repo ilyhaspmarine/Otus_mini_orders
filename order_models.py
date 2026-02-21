@@ -31,6 +31,8 @@ class OrderReturn(OrderID, UserName, Price):
     status: str = Field()
     placed_at: datetime = Field()
     updated_at: datetime = Field() 
+    class Config:
+        from_attributes = True
 
 class OrderUpdateMessage(OrderIDStr, UserName, Event):
     updated_at: datetime = Field() 
