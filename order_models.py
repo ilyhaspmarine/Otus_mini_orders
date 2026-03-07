@@ -20,8 +20,11 @@ class OrderIDStr(BaseModel):
 class Event(BaseModel):
     event: str
 
+class SagaID(BaseModel):
+    saga_id: UUID
 
-class OrderCreate(UserName, Price):
+
+class OrderCreate(UserName, Price, SagaID):
     pass
 
 class OrderUpdateEvent(OrderID, Event):

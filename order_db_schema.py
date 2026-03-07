@@ -12,7 +12,7 @@ Base = declarative_base()
 # Определяем перечисление для статуса заказа
 class OrderStatus(str, Enum):
     PENDING = "pending"
-    PAID = "paid"
+    PAID = "confirmed"
     CANCELLED = "cancelled"
     DELIVERED = "delivered"
 
@@ -40,3 +40,6 @@ class Order(Base):
 
     # ID оплаты (для связи с сервисом биллинга)
     payment_id = Column(UUID(as_uuid=True))
+
+    # Ключ идемпотентности
+    saga_id = Column(UUID(as_uuid=True), nullable=False, unique=True, index=True)

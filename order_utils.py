@@ -28,24 +28,36 @@ async def process_new_order(
     new_order: OrderCreate,
     db: AsyncSession
 ):
-    now = datetime.utcnow()
-    db_order = OrderSchema(
-        id = uuid.uuid4(),
-        username = new_order.username,
-        price = new_order.price,
-        status = OrderStatus.PENDING,
-        placed_at = now,
-        updated_at = now,
-        payment_id = None
+    result = await db.execute(
+        select(OrderSchema)
+        .filter(OrderSchema.saga_id == new_order.saga_id)
     )
 
-    db.add(db_order)
+    existing_order = result.scalar_one_or_none()
 
-    try:
-        await db.commit()
-    except IntegrityError:
-        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = 'Failed to create order')
-    
+    if existing_order is None:
+        now = datetime.utcnow()
+        db_order = OrderSchema(
+            id = uuid.uuid4(),
+            username = new_order.username,
+            price = new_order.price,
+            status = OrderStatus.PENDING,
+            placed_at = now,
+            updated_at = now,
+            payment_id = None,
+            saga_id = new_order.saga_id
+        )
+
+        db.add(db_order)
+
+        try:
+            await db.commit()
+        except IntegrityError:
+            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = 'Failed to create order')
+
+    else:
+        db_order = existing_order
+
     return build_return_from_order(db_order)
 
 

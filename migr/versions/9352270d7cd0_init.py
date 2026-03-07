@@ -29,8 +29,10 @@ def upgrade() -> None:
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.Column('username', sa.String(length=100), nullable=False),
     sa.Column('payment_id', sa.UUID(), nullable=True),
+    sa.Column('saga_id', sa.UUID(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_orders_saga_id'), 'orders', ['saga_id'], unique=True)
     # ### end Alembic commands ###
 
 
